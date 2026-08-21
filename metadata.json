@@ -1,0 +1,8 @@
+{
+  "name": "Ustaeller Özel Mobilya",
+  "description": "Ölçüye ve mekana özel tasarım mobilya imalatı, mutfak, banyo, giyinme odası ve proje uygulamaları.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
