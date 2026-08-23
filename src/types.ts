@@ -32,3 +32,29 @@ export interface ProcessStep {
   description: string;
   details: string;
 }
+
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  location: string;
+  projectType: string;
+  comment: string;
+  rating: number;
+  date: string;
+}
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface MaterialItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  iconName: string;
+  highlightColor: string;
+}

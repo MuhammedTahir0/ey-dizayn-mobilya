@@ -50,3 +50,40 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
+
+/* Luxury Gold & Brand Text Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-luxury-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #fef08a 35%, #e879f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-subtle {
+  border-color: rgba(234, 179, 8, 0.25);
+}
+
+.border-gold-glow:hover {
+  border-color: rgba(250, 204, 21, 0.6);
+  box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.25);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+
+/* Safe area for mobile sticky bottom */
+.pb-safe-bottom {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}

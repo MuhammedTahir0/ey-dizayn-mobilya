@@ -1,4 +1,4 @@
-import type { Project, ServiceItem } from '../types';
+import type { Project, ServiceItem, TestimonialItem, FaqItem, MaterialItem } from '../types';
 
 export const companyInfo = {
   name: 'EY Dizayn',
@@ -171,5 +171,120 @@ export const servicesData: ServiceItem[] = [
     image: '/images/projects/dresuar-gold-1.jpeg',
     badge: 'Garantili İmalat',
     details: ['Suya Dayanıklı Gövde & Kapak', 'Gizli Çamaşır Makinesi Dolapları', 'Özel Ölçü Vestiyer & Portmanto', 'Mağaza & Ofis Mobilyaları']
+  }
+];
+
+export const materialsData: MaterialItem[] = [
+  {
+    id: 'm1',
+    title: 'Sararmaz İpek Mat & Parlak Lake',
+    subtitle: 'Poliüretan Fırın Boya & Kusursuz Yüzey',
+    description: 'Yüksek kaliteli MDF üzerine uygulanan çok katmanlı astar ve sararma yapmayan İtalyan formül lake boya ile pürüzsüz doku.',
+    features: ['Sararma ve solmaya karşı UV dirençli', 'İstenen her RAL renk kodunda üretim', 'Pürüzsüz ipeksi mat veya ayna parlaklık'],
+    iconName: 'Sparkles',
+    highlightColor: 'from-amber-400 to-yellow-500'
+  },
+  {
+    id: 'm2',
+    title: 'Çizilmez & Neme Dayanıklı Akrilik',
+    subtitle: 'Ultra Parlak & Modern Mutfak Standartı',
+    description: 'Mutfak ve banyolarda buhara, neme ve darbelere karşı maksimum dayanıklılık sağlayan hijyenik ve kolay silinebilir paneller.',
+    features: ['Çizilmelere karşı nano koruma', 'Buhar ve sıcaklık değişimlerine dirençli', 'Kolay temizlenen leke tutmaz yüzey'],
+    iconName: 'Shield',
+    highlightColor: 'from-blue-400 to-cyan-500'
+  },
+  {
+    id: 'm3',
+    title: 'Akustik Ahşap & CNC Lambiri Çıtalar',
+    subtitle: 'Doğal Doku & Mekana Derinlik Katan Hatlar',
+    description: 'Özel CNC makinelerimizde açılan oluklu çıta paneller ile yatak odası başlıklarında ve salonlarda sıcak ahşap akustiği.',
+    features: ['CNC milimetrik hassas çıta kesimi', 'Entegre gizli LED ve priz kanalları', 'Doğal ceviz, meşe veya lake kaplama'],
+    iconName: 'Layers',
+    highlightColor: 'from-orange-400 to-amber-500'
+  },
+  {
+    id: 'm4',
+    title: 'Frenli Mekanizmalar (Blum & Samet)',
+    subtitle: 'Ömür Boyu Sessiz ve Konforlu Kullanım',
+    description: 'Dolap kapaklarında ve ağır çekmecelerde sarsıntısız, yavaş ve sessiz kapanma sağlayan dünya standartlarında donanım.',
+    features: ['Tandembox / frenli gizli ray sistemleri', '110° & 155° açılı geniş menteşeler', '60 kg taşıma kapasiteli geniş çekmeceler'],
+    iconName: 'Cpu',
+    highlightColor: 'from-emerald-400 to-teal-500'
+  },
+  {
+    id: 'm5',
+    title: 'Füme Reflekte Cam & Alüminyum Çerçeve',
+    subtitle: 'Lüks Vitrinler & Giyinme Odası Tasarımı',
+    description: 'İçeriden aydınlatıldığında şeffaflaşan, dışarıdan asil bir ayna etkisi yaratan modern temperli reflekte cam kapaklar.',
+    features: ['Temperli kırılmaz güvenli cam', 'İnce elektrostatik antrasit/gold profil', 'Entegre boydan LED aydınlatma'],
+    iconName: 'Eye',
+    highlightColor: 'from-purple-400 to-fuchsia-500'
+  },
+  {
+    id: 'm6',
+    title: 'Homojen Lineer LED Aydınlatma',
+    subtitle: '3000K Günışığı & Dokunmatik / Sensörlü Kontrol',
+    description: 'Tezgah altı, kiler içi ve vitrin raflarında gözü yormayan, noktasız ve homojen ışık yayan gizli profil LED sistemleri.',
+    features: ['Noktasız kesintisiz opal difüzör', 'Kapak açıldığında otomatik yanan sensörler', 'Enerji tasarruflu uzun ömürlü çipler'],
+    iconName: 'Sun',
+    highlightColor: 'from-yellow-300 to-amber-400'
+  }
+];
+
+export const testimonialsData: TestimonialItem[] = [
+  {
+    id: 't1',
+    name: 'Mustafa & Zehra K.',
+    location: 'Kayseri - Talas (Villa Projesi)',
+    projectType: 'Komple Ada Mutfak & Giyinme Odası',
+    comment: 'Erkan Usta ile çalışmak gerçekten büyük bir ayrıcalıktı. 3D çizimde ne gösterdiyse milimetresine kadar aynısını yaptı. Lake boya kalitesi ve LED aydınlatmalar kusursuz oldu. Her gelen misafirimiz mutfağımızı soruyor.',
+    rating: 5,
+    date: 'Ağustos 2026'
+  },
+  {
+    id: 't2',
+    name: 'Murat Bey',
+    location: 'Kocasinan / Daire Yenileme',
+    projectType: 'TV Ünitesi & Akustik Lambiri Başlık',
+    comment: 'Mobilyakentte birçok atölye gezdim ancak Erkan Ustanın ilgisi ve sunduğu malzeme kalitesi fark yarattı. Söz verdiği günden 2 gün önce montaja geldi. İşçilik ve temizlik 10 numara.',
+    rating: 5,
+    date: 'Temmuz 2026'
+  },
+  {
+    id: 't3',
+    name: 'Selin & Emre D.',
+    location: 'Melikgazi - Alpaslan',
+    projectType: 'Country Mutfak & Baklava Aynalı Dresuar',
+    comment: 'Pinterestten gösterdiğimiz özel modeli birebir evimizin ölçüsüne uyarladı. Kulplarından menteşelerine kadar 1. sınıf malzeme kullandı. Erkan Usta ve ekibine çok teşekkür ederiz.',
+    rating: 5,
+    date: 'Haziran 2026'
+  }
+];
+
+export const faqsData: FaqItem[] = [
+  {
+    id: 'f1',
+    question: 'Kayseri içi keşif ve lazerli ölçü alma ücretli mi?',
+    answer: 'Kesinlikle hayır. Kayseri genelinde (Melikgazi, Kocasinan, Talas, Hacılar vb.) adresinize bizzat gelerek lazerli milimetrik ölçü alıyor, mekanınızı inceliyor ve ücretsiz fiyat teklifi hazırlıyoruz.'
+  },
+  {
+    id: 'f2',
+    question: 'Mobilyalar üretilmeden önce 3D çizim ile görebilir miyim?',
+    answer: 'Evet. Ölçüleri aldıktan sonra mekanınızı 3 boyutlu bilgisayar ortamında modelliyoruz. Kapak renkleri, kulp seçenekleri, tezgah uyumu ve LED detaylarını siz beğenip onaylamadan atölyede kesime geçmiyoruz.'
+  },
+  {
+    id: 'f3',
+    question: 'İmalat ve anahtar teslim montaj süresi ne kadar?',
+    answer: 'Seçilen malzeme türüne (lake fırın boya, akrilik veya masif) ve projenin hacmine bağlı olarak ortalama 15 ile 25 iş günü içerisinde tüm imalatı tamamlayıp kendi uzman montaj ekibimizle temiz teslimat yapıyoruz.'
+  },
+  {
+    id: 'f4',
+    question: 'İnternette veya sosyal medyada gördüğüm özel bir modeli yaptırabilir miyim?',
+    answer: 'Evet! Pinterest, Instagram veya herhangi bir katalogda beğendiğiniz mobilyanın fotoğrafını bize WhatsApp üzerinden göndermeniz yeterlidir. Modelin detaylarını mekanınızın ölçüsüne göre birebir projelendirip üretiyoruz.'
+  },
+  {
+    id: 'f5',
+    question: 'Kullandığınız malzeme ve mekanizma kalitesi nedir?',
+    answer: 'İç gövde ve kapaklarda 1. sınıf neme dayanıklı MDF-Lam ve sararmaz poliüretan lake boya kullanıyoruz. Ray ve menteşe mekanizmalarında ise sessiz kapanan, ömür boyu garantili Blum ve Samet donanımlarını standart olarak uyguluyoruz.'
   }
 ];

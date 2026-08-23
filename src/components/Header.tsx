@@ -36,8 +36,10 @@ export default function Header() {
     { name: 'Ana Sayfa', id: 'anasayfa' },
     { name: 'Hizmetlerimiz', id: 'hizmetler' },
     { name: 'Projelerimiz', id: 'projeler' },
-    { name: 'Hakkımızda', id: 'hakkimizda' },
-    { name: 'Nasıl Çalışıyoruz?', id: 'surec' },
+    { name: 'Malzeme & Donanım', id: 'malzemeler' },
+    { name: 'Fiyat Sihirbazı', id: 'fiyat-sihirbazi' },
+    { name: 'Yorumlar', id: 'yorumlar' },
+    { name: 'SSS', id: 'sss' },
     { name: 'İletişim', id: 'iletisim' },
   ];
 

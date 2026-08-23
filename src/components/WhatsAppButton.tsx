@@ -7,7 +7,7 @@ export default function WhatsAppButton() {
       href={`https://wa.me/${companyInfo.phoneRaw}?text=Merhaba%20Erkan%20Usta,%20özel%20mobilya%20imalatı%20için%20fiyat%20öğrenmek%20istiyorum.`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-emerald-500 hover:bg-emerald-400 text-white rounded-full shadow-2xl shadow-emerald-950/80 hover:scale-110 transition-all duration-300 group border-2 border-white/20"
+      className="hidden lg:flex fixed bottom-6 right-6 z-50 items-center justify-center w-14 h-14 bg-emerald-500 hover:bg-emerald-400 text-white rounded-full shadow-2xl shadow-emerald-950/80 hover:scale-110 transition-all duration-300 group border-2 border-white/20"
       aria-label="WhatsApp'tan Erkan Usta'ya Ulaşın"
     >
       <MessageCircle className="w-7 h-7" />
