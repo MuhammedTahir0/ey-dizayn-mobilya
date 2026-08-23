@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, Layers, ShieldCheck, PhoneCall, Star, ChevronRight } from 'lucide-react';
 import Hero from '../components/Hero';
+import ProjectSlider from '../components/ProjectSlider';
 import Services from '../components/Services';
-import Gallery from '../components/Gallery';
 import MaterialShowcase from '../components/MaterialShowcase';
 import QuoteWizard from '../components/QuoteWizard';
 import About from '../components/About';
@@ -13,30 +11,31 @@ import Contact from '../components/Contact';
 export default function HomePage() {
   return (
     <div>
+      {/* 1. Split Hero Giriş */}
       <Hero />
+
+      {/* 2. Otomatik Animasyonlu Proje Slaytı */}
+      <ProjectSlider />
       
-      {/* Services Section with Direct Link */}
+      {/* 3. Hizmetlerimiz Özeti */}
       <Services />
 
-      {/* Featured Projects Gallery */}
-      <Gallery />
-
-      {/* 1st Class Material Showcase */}
+      {/* 4. 1. Sınıf Malzeme Kartelası */}
       <MaterialShowcase />
 
-      {/* 3-Step Interactive Quote Wizard */}
+      {/* 5. 3 Adımlı WhatsApp Teklif Sihirbazı */}
       <QuoteWizard />
 
-      {/* About & Craftsmanship Story */}
+      {/* 6. Hakkımızda & Erkan Usta */}
       <About />
 
-      {/* Testimonials */}
+      {/* 7. Müşteri Yorumları */}
       <Testimonials />
 
-      {/* FAQs */}
+      {/* 8. Sıkça Sorulan Sorular */}
       <FAQ />
 
-      {/* Contact & Map Section */}
+      {/* 9. İletişim & Harita */}
       <Contact />
     </div>
   );
