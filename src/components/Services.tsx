@@ -1,4 +1,5 @@
-import { ChefHat, BedDouble, Sparkles, Tv, LayoutGrid, Layers, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChefHat, BedDouble, Sparkles, Tv, LayoutGrid, Layers, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { servicesData, companyInfo } from '../data/projectsData';
 
 const iconMap = {
@@ -11,10 +12,7 @@ const iconMap = {
 };
 
 export default function Services() {
-  const scrollToContact = () => {
-    document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  // Navigation handled via Link
   return (
     <section id="hizmetler" className="py-24 bg-stone-900/60 relative border-t border-stone-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,24 +89,34 @@ export default function Services() {
                       href={`https://wa.me/${companyInfo.phoneRaw}?text=Merhaba%20Erkan%20Usta,%20${encodeURIComponent(service.title)}%20hakkında%20bilgi%20ve%20fiyat%20almak%20istiyorum.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs font-semibold text-fuchsia-400 hover:text-fuchsia-300 flex items-center gap-1 group/link"
+                      className="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1 group/link"
                     >
                       <span>Fiyat Teklifi İste</span>
                       <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                     </a>
 
-                    <button 
-                      onClick={scrollToContact}
-                      className="text-xs text-stone-400 hover:text-white transition-colors cursor-pointer"
+                    <Link 
+                      to="/fiyat-hesapla"
+                      className="text-xs text-stone-400 hover:text-white transition-colors font-medium"
                     >
-                      Ölçü Talebi
-                    </button>
+                      Ölçü & Fiyat
+                    </Link>
                   </div>
-
                 </div>
               </div>
             );
           })}
+        </div>
+
+        {/* View All Services Link */}
+        <div className="mt-14 text-center">
+          <Link
+            to="/hizmetlerimiz"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-stone-950 hover:bg-stone-900 border border-amber-500/30 hover:border-amber-400 text-amber-300 font-bold text-sm shadow-xl transition-all hover:scale-105"
+          >
+            <span>Tüm Hizmetlerimizi ve İmalat Detaylarını İnceleyin</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
       </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, MessageCircle, PhoneCall, CheckCircle2, ShieldCheck, MapPin, Ruler, Layers, Eye, Award } from 'lucide-react';
 import { companyInfo } from '../data/projectsData';
 
@@ -45,9 +46,7 @@ export default function Hero() {
     document.getElementById('projeler')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const scrollToWizard = () => {
-    document.getElementById('fiyat-sihirbazi')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // Navigation handled via Link
 
   return (
     <section id="anasayfa" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-36 lg:pb-24">
@@ -100,13 +99,13 @@ export default function Hero() {
                 <span>Erkan Usta'dan Hızlı Fiyat Al</span>
               </a>
 
-              <button 
-                onClick={scrollToWizard}
-                className="flex items-center justify-center gap-2 px-6 py-4 bg-stone-900/90 hover:bg-stone-800 text-amber-300 rounded-2xl font-semibold transition-all duration-300 border border-amber-500/30 hover:border-amber-400 backdrop-blur-md shadow-lg cursor-pointer text-sm sm:text-base"
+              <Link 
+                to="/fiyat-hesapla"
+                className="flex items-center justify-center gap-2 px-6 py-4 bg-stone-900/90 hover:bg-stone-800 text-amber-300 rounded-2xl font-semibold transition-all duration-300 border border-amber-500/30 hover:border-amber-400 backdrop-blur-md shadow-lg text-sm sm:text-base cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span>3 Adımda Fiyat Hesapla</span>
-              </button>
+              </Link>
             </div>
 
             {/* Stats Row */}

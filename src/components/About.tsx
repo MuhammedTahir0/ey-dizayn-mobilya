@@ -1,6 +1,6 @@
-import { Shield, Sparkles, Ruler, Award, MapPin, Instagram, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Shield, Sparkles, Ruler, Award, MapPin, Instagram, Phone, ArrowRight } from 'lucide-react';
 import { companyInfo } from '../data/projectsData';
-
 export default function About() {
   return (
     <section id="hakkimizda" className="py-24 bg-stone-900/80 border-t border-stone-800/80 relative">
@@ -120,6 +120,17 @@ export default function About() {
                 </p>
               </div>
 
+            </div>
+
+            {/* About Page Link */}
+            <div className="pt-6">
+              <Link
+                to="/hakkimizda"
+                className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold text-sm group"
+              >
+                <span>Erkan Usta'nın 15+ Yıllık Ustalık Hikayesi & 4 Adımlı İmalat Sürecini İnceleyin</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
 
           </div>
