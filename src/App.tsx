@@ -14,7 +14,6 @@ import QuoteWizardPage from './pages/QuoteWizardPage';
 import AboutPage from './pages/AboutPage';
 import ReviewsFaqPage from './pages/ReviewsFaqPage';
 import ContactPage from './pages/ContactPage';
-import Vestiyer3DPage from './pages/Vestiyer3DPage';
 
 export default function App() {
   return (
@@ -27,8 +26,6 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/hizmetlerimiz" element={<ServicesPage />} />
             <Route path="/projelerimiz" element={<ProjectsPage />} />
-            <Route path="/3d-vestiyer" element={<Vestiyer3DPage />} />
-            <Route path="/3d-tasarim" element={<Vestiyer3DPage />} />
             <Route path="/malzemelerimiz" element={<MaterialsPage />} />
             <Route path="/fiyat-hesapla" element={<QuoteWizardPage />} />
             <Route path="/hakkimizda" element={<AboutPage />} />

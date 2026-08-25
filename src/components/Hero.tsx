@@ -106,14 +106,6 @@ export default function Hero() {
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span>3 Adımda Fiyat Hesapla</span>
               </Link>
-
-              <Link
-                to="/3d-vestiyer"
-                className="flex items-center justify-center gap-2 px-5 py-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-2xl font-semibold transition-all duration-300 border border-amber-500/40 hover:border-amber-400 backdrop-blur-md shadow-lg text-sm sm:text-base cursor-pointer"
-              >
-                <Layers className="w-4 h-4 text-amber-400" />
-                <span>3D Vestiyer Tasarımı</span>
-              </Link>
             </div>
 
             {/* Stats Row */}
