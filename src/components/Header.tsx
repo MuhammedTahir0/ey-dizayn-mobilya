@@ -26,6 +26,7 @@ export default function Header() {
     { name: 'Ana Sayfa', path: '/' },
     { name: 'Hizmetlerimiz', path: '/hizmetlerimiz' },
     { name: 'Projelerimiz', path: '/projelerimiz' },
+    { name: '✨ 3D Vestiyer', path: '/3d-vestiyer' },
     { name: 'Malzeme & Donanım', path: '/malzemelerimiz' },
     { name: 'Fiyat Sihirbazı', path: '/fiyat-hesapla' },
     { name: 'Hakkımızda', path: '/hakkimizda' },

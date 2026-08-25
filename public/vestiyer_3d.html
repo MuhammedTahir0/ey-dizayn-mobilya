@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EY Dizayn Mobilya — Özel Vestiyer 3D Tasarım & İnceleme</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      user-select: none;
+    }
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    
+    /* Üst Başlık & Marka */
+    .header-bar {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      padding: 14px 22px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .header-bar h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f59e0b;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-bar p {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* Ölçü Kartı */
+    .specs-badge {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      display: flex;
+      gap: 16px;
+      font-size: 0.8rem;
+    }
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .spec-label {
+      color: #64748b;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .spec-val {
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Kontrol Paneli */
+    .control-panel {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(20px);
+      padding: 14px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 95vw;
+      overflow-x: auto;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+    .btn:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+      color: #fbbf24;
+      transform: translateY(-2px);
+    }
+    .btn.active {
+      background: #f59e0b;
+      border-color: #f59e0b;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* Renk Seçimi */
+    .color-picker {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 0 6px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .color-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .color-dot:hover, .color-dot.active {
+      transform: scale(1.18);
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.4);
+    }
+    .color-oak { background: #b5885c; }
+    .color-walnut { background: #5c3e2e; }
+    .color-anthracite { background: #2b303a; }
+    .color-cream { background: #e8ded1; }
+
+    /* Bilgi İpuçları */
+    .hint-bar {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    /* 3D Ölçü Etiketleri */
+    .label-3d {
+      position: absolute;
+      z-index: 2;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #f59e0b;
+      color: #f59e0b;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: opacity 0.2s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Başlık -->
+  <div class="header-bar">
+    <h1>🛋️ EY DİZAYN MOBİLYA</h1>
+    <p>Özel İmalat Vestiyer 3D Tasarım & Ölçü Simülatörü</p>
+  </div>
+
+  <!-- Ölçüler -->
+  <div class="specs-badge">
+    <div class="spec-item">
+      <span class="spec-label">Genişlik</span>
+      <span class="spec-val">2150 mm</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Yükseklik</span>
+      <span class="spec-val">2000 mm</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Sol Derinlik</span>
+      <span class="spec-val">660 mm</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Sağ Derinlik</span>
+      <span class="spec-val">400 mm</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Lambri Modülü</span>
+      <span class="spec-val">1000 mm</span>
+    </div>
+  </div>
+
+  <div class="hint-bar">
+    🖱️ Fare ile 360° Çevirebilir, Tekerlek ile Yakınlaşabilirsiniz
+  </div>
+
+  <!-- Alt Kontroller -->
+  <div class="control-panel">
+    <button class="btn" id="btn-door" onclick="toggleDoors()">
+      🚪 Kapakları Aç / Kapat
+    </button>
+    <button class="btn active" id="btn-led" onclick="toggleLED()">
+      💡 Gizli LED Aydınlatma
+    </button>
+    <button class="btn" onclick="setCameraView('front')">
+      📐 Ön Görünüş
+    </button>
+    <button class="btn" onclick="setCameraView('iso')">
+      🧊 3D İzometrik
+    </button>
+    <button class="btn" onclick="setCameraView('side')">
+      ↔️ Derinlik Pahı
+    </button>
+
+    <div class="color-picker">
+      <div class="color-dot color-oak active" title="Doğal Meşe" onclick="changeMaterial('#c49a6c', '#2c221a')"></div>
+      <div class="color-dot color-walnut" title="Koyu Ceviz" onclick="changeMaterial('#5c3e2e', '#1c1511')"></div>
+      <div class="color-dot color-cream" title="Mat Krem / Bej" onclick="changeMaterial('#ded5c7', '#332f2c')"></div>
+      <div class="color-dot color-anthracite" title="Modern Antrasit" onclick="changeMaterial('#374151', '#111827')"></div>
+    </div>
+
+    <button class="btn" onclick="resetView()">
+      🔄 Sıfırla
+    </button>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <script>
+    // --- THREE.JS KURULUMU ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f172a);
+    scene.fog = new THREE.FogExp2(0x0f172a, 0.0003);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 10, 20000);
+    camera.position.set(2200, 1600, 3200);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 + 0.05;
+    controls.minDistance = 800;
+    controls.maxDistance = 6000;
+    controls.target.set(1075, 1000, -260);
+
+    // --- IŞIKLANDIRMA ---
+    const ambientLight = new THREE.AmbientLight(0xfff8f0, 0.7);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(2500, 4000, 3000);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.near = 500;
+    dirLight.shadow.camera.far = 8000;
+    dirLight.shadow.camera.left = -2500;
+    dirLight.shadow.camera.right = 2500;
+    dirLight.shadow.camera.top = 2500;
+    dirLight.shadow.camera.bottom = -1000;
+    dirLight.shadow.bias = -0.0005;
+    scene.add(dirLight);
+
+    const softFillLight = new THREE.DirectionalLight(0xa5c4f2, 0.4);
+    softFillLight.position.set(-2000, 2000, -1500);
+    scene.add(softFillLight);
+
+    // LED Işıkları
+    const ledLights = [];
+    const ledColor = 0xffb74d; // 3000K Sıcak Gün Işığı
+
+    // Zemin
+    const floorGeo = new THREE.PlaneGeometry(12000, 12000);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.6,
+      metalness: 0.1
+    });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Arka ve Yan Duvarlar (Antre Alanı)
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.9 });
+    const backWall = new THREE.Mesh(new THREE.PlaneGeometry(8000, 4000), wallMat);
+    backWall.position.set(2000, 2000, -700);
+    backWall.receiveShadow = true;
+    scene.add(backWall);
+
+    // --- MALZEMELER ---
+    let currentWoodColor = 0xc49a6c;
+    let currentDarkColor = 0x2c221a;
+
+    const carcassMat = new THREE.MeshStandardMaterial({
+      color: 0x2a3342,
+      roughness: 0.5,
+      metalness: 0.05
+    });
+
+    const woodMat = new THREE.MeshStandardMaterial({
+      color: currentWoodColor,
+      roughness: 0.4,
+      metalness: 0.05
+    });
+
+    const lambriMat = new THREE.MeshStandardMaterial({
+      color: currentWoodColor,
+      roughness: 0.35,
+      metalness: 0.05
+    });
+
+    const cushionMat = new THREE.MeshStandardMaterial({
+      color: 0x475569,
+      roughness: 0.9,
+      metalness: 0.0
+    });
+
+    const metalMat = new THREE.MeshStandardMaterial({
+      color: 0xd4af37, // Gold / Pirinç kancalar
+      metalness: 0.85,
+      roughness: 0.2
+    });
+
+    const ledGlowMat = new THREE.MeshBasicMaterial({
+      color: 0xffd180
+    });
+
+    // --- VESTİYER PARAMETRİK GEOMETRİSİ ---
+    const TOTAL_W = 2150;
+    const TOTAL_H = 2000;
+    const LEFT_D = 660;
+    const RIGHT_D = 400;
+    const THICKNESS = 18;
+
+    // Modül Genişlikleri:
+    // 1. Lambri Kapaklı Modül: 1000 mm
+    // 2. Çok Katlı Raf Kulesi: 350 mm
+    // 3. Orta Askılık + Puf Alanı: 450 mm
+    // 4. Sağ Kapaklı/Askılı Dolap: 350 mm
+    // Toplam: 1000 + 350 + 450 + 350 = 2150 mm
+
+    const M1_W = 1000;
+    const M2_W = 350;
+    const M3_W = 450;
+    const M4_W = 350;
+
+    const vestiyerGroup = new THREE.Group();
+    scene.add(vestiyerGroup);
+
+    // Derinlik Fonksiyonu (Pah / Açı Hesabı): X'e göre derinliği verir
+    function getDepthAtX(x) {
+      // x: 0 (en sol) -> LEFT_D (660)
+      // x: TOTAL_W (en sağ) -> RIGHT_D (400)
+      const ratio = x / TOTAL_W;
+      return LEFT_D - ratio * (LEFT_D - RIGHT_D);
+    }
+
+    // 1. ALT TABLA & ÜST TABLA (Açılı Özel Geometri)
+    function createBeveledBoard(yPos) {
+      const shape = new THREE.Shape();
+      shape.moveTo(0, 0);
+      shape.lineTo(TOTAL_W, 0);
+      shape.lineTo(TOTAL_W, -RIGHT_D);
+      shape.lineTo(0, -LEFT_D);
+      shape.closePath();
+
+      const extrudeSettings = {
+        steps: 1,
+        depth: THICKNESS,
+        bevelEnabled: false
+      };
+
+      const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      const mesh = new THREE.Mesh(geo, carcassMat);
+      mesh.rotation.x = Math.PI / 2;
+      mesh.position.set(0, yPos + THICKNESS, 0);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    vestiyerGroup.add(createBeveledBoard(0)); // Alt Baza Tablası
+    vestiyerGroup.add(createBeveledBoard(TOTAL_H - THICKNESS)); // Üst Tavan Tablası
+
+    // Baza Ayak / Baza Önü
+    const bazaMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(TOTAL_W, 80, 20),
+      carcassMat
+    );
+    bazaMesh.position.set(TOTAL_W / 2, 40, -20);
+    bazaMesh.castShadow = true;
+    vestiyerGroup.add(bazaMesh);
+
+    // DİKME PANELLERİ (Vertical Dividers)
+    function createDivider(xPos, height = TOTAL_H) {
+      const d = getDepthAtX(xPos);
+      const geo = new THREE.BoxGeometry(THICKNESS, height, d);
+      const mesh = new THREE.Mesh(geo, carcassMat);
+      mesh.position.set(xPos, height / 2, -d / 2);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    // Sol Yan Dikme (x=0, D=660)
+    vestiyerGroup.add(createDivider(THICKNESS / 2));
+    // 1. ile 2. Modül Arası Dikme (x=1000)
+    vestiyerGroup.add(createDivider(M1_W));
+    // 2. ile 3. Modül Arası Dikme (x=1350)
+    vestiyerGroup.add(createDivider(M1_W + M2_W));
+    // 3. ile 4. Modül Arası Dikme (x=1800)
+    vestiyerGroup.add(createDivider(M1_W + M2_W + M3_W));
+    // Sağ Yan Dikme (x=2150, D=400)
+    vestiyerGroup.add(createDivider(TOTAL_W - THICKNESS / 2));
+
+    // ==========================================
+    // MODÜL 1: 1000 mm LAMBRİ KAPAKLI ANA DOLAP
+    // ==========================================
+    const m1Group = new THREE.Group();
+    vestiyerGroup.add(m1Group);
+
+    // İç Askılık Borusu (660 mm derinlikte uzun kabanlar için)
+    const railGeo = new THREE.CylinderGeometry(14, 14, M1_W - 40, 16);
+    const railMesh = new THREE.Mesh(railGeo, metalMat);
+    railMesh.rotation.z = Math.PI / 2;
+    railMesh.position.set(M1_W / 2, TOTAL_H - 220, -LEFT_D / 2);
+    m1Group.add(railMesh);
+
+    // Üst Şapkalık Rafı
+    const m1TopShelf = new THREE.Mesh(
+      new THREE.BoxGeometry(M1_W - THICKNESS, THICKNESS, LEFT_D - 50),
+      carcassMat
+    );
+    m1TopShelf.position.set(M1_W / 2, TOTAL_H - 300, -LEFT_D / 2);
+    m1Group.add(m1TopShelf);
+
+    // 2 Kanatlı Lambri Kapaklar (Açılıp Kapanabilen Pivotlu)
+    const doorWidth = (M1_W - 10) / 2;
+    const doorHeight = TOTAL_H - 90;
+    
+    // Sol Kanat Pivot Grubu
+    const leftDoorPivot = new THREE.Group();
+    leftDoorPivot.position.set(THICKNESS, 85, 0);
+    vestiyerGroup.add(leftDoorPivot);
+
+    const doorPanelGeo = new THREE.BoxGeometry(doorWidth, doorHeight, 20);
+    const leftDoorMesh = new THREE.Mesh(doorPanelGeo, woodMat);
+    leftDoorMesh.position.set(doorWidth / 2, doorHeight / 2, 10);
+    leftDoorMesh.castShadow = true;
+    leftDoorPivot.add(leftDoorMesh);
+
+    // Sol Kapak Üzeri Lambri Çıtaları (3D Slats)
+    const slatCount = 18;
+    const slatW = 14;
+    const slatSpacing = doorWidth / slatCount;
+    for (let i = 0; i < slatCount; i++) {
+      const slat = new THREE.Mesh(
+        new THREE.BoxGeometry(slatW, doorHeight - 20, 10),
+        lambriMat
+      );
+      slat.position.set(
+        -doorWidth / 2 + (i + 0.5) * slatSpacing,
+        0,
+        15
+      );
+      slat.castShadow = true;
+      leftDoorMesh.add(slat);
+    }
+
+    // Sağ Kanat Pivot Grubu
+    const rightDoorPivot = new THREE.Group();
+    rightDoorPivot.position.set(M1_W - THICKNESS, 85, 0);
+    vestiyerGroup.add(rightDoorPivot);
+
+    const rightDoorMesh = new THREE.Mesh(doorPanelGeo, woodMat);
+    rightDoorMesh.position.set(-doorWidth / 2, doorHeight / 2, 10);
+    rightDoorMesh.castShadow = true;
+    rightDoorPivot.add(rightDoorMesh);
+
+    for (let i = 0; i < slatCount; i++) {
+      const slat = new THREE.Mesh(
+        new THREE.BoxGeometry(slatW, doorHeight - 20, 10),
+        lambriMat
+      );
+      slat.position.set(
+        -doorWidth / 2 + (i + 0.5) * slatSpacing,
+        0,
+        15
+      );
+      slat.castShadow = true;
+      rightDoorMesh.add(slat);
+    }
+
+    // Gizli Dikey Kulplar (Gold/Black)
+    const handleGeo = new THREE.BoxGeometry(10, 400, 20);
+    const leftHandle = new THREE.Mesh(handleGeo, metalMat);
+    leftHandle.position.set(doorWidth - 25, doorHeight / 2, 22);
+    leftDoorPivot.add(leftHandle);
+
+    const rightHandle = new THREE.Mesh(handleGeo, metalMat);
+    rightHandle.position.set(-doorWidth + 25, doorHeight / 2, 22);
+    rightDoorPivot.add(rightHandle);
+
+    // ==========================================
+    // MODÜL 2: 350 mm ÇOK KATLI RAF KULESİ (7 Katlı)
+    // ==========================================
+    const m2Group = new THREE.Group();
+    vestiyerGroup.add(m2Group);
+
+    const shelfCount = 7;
+    const shelfSpacing = (TOTAL_H - 120) / (shelfCount + 1);
+    const m2StartX = M1_W;
+    const m2D = getDepthAtX(m2StartX + M2_W / 2);
+
+    for (let i = 1; i <= shelfCount; i++) {
+      const sy = 80 + i * shelfSpacing;
+      const shelf = new THREE.Mesh(
+        new THREE.BoxGeometry(M2_W - THICKNESS, THICKNESS, m2D - 30),
+        woodMat
+      );
+      shelf.position.set(m2StartX + M2_W / 2, sy, -m2D / 2);
+      shelf.castShadow = true;
+      shelf.receiveShadow = true;
+      m2Group.add(shelf);
+
+      // Raf Altı LED Şeridi
+      const ledStrip = new THREE.Mesh(
+        new THREE.BoxGeometry(M2_W - 40, 4, 8),
+        ledGlowMat
+      );
+      ledStrip.position.set(m2StartX + M2_W / 2, sy - 10, -20);
+      m2Group.add(ledStrip);
+
+      // Raf Işığı (PointLight)
+      if (i % 2 === 0) {
+        const pLight = new THREE.PointLight(ledColor, 0.4, 600);
+        pLight.position.set(m2StartX + M2_W / 2, sy - 20, -100);
+        scene.add(pLight);
+        ledLights.push(pLight);
+      }
+    }
+
+    // ==========================================
+    // MODÜL 3: 450 mm AÇIK ASKILIK & OTURMA PUFU
+    // ==========================================
+    const m3Group = new THREE.Group();
+    vestiyerGroup.add(m3Group);
+
+    const m3StartX = M1_W + M2_W;
+    const m3D = getDepthAtX(m3StartX + M3_W / 2);
+
+    // Oturma Baza / Puf Sandığı (Yükseklik: 480 mm)
+    const pufBase = new THREE.Mesh(
+      new THREE.BoxGeometry(M3_W - THICKNESS, 400, m3D - 20),
+      carcassMat
+    );
+    pufBase.position.set(m3StartX + M3_W / 2, 200 + 80, -m3D / 2);
+    pufBase.castShadow = true;
+    m3Group.add(pufBase);
+
+    // Kumaş/Deri Oturma Minderi (Puf)
+    const cushion = new THREE.Mesh(
+      new THREE.BoxGeometry(M3_W - 20, 70, m3D - 10),
+      cushionMat
+    );
+    cushion.position.set(m3StartX + M3_W / 2, 480 + 35, -m3D / 2 + 5);
+    cushion.castShadow = true;
+    m3Group.add(cushion);
+
+    // Arka Duvar Lambri/Çıtalı Panel
+    const backPanel = new THREE.Mesh(
+      new THREE.BoxGeometry(M3_W - THICKNESS, TOTAL_H - 580 - 200, 16),
+      woodMat
+    );
+    backPanel.position.set(m3StartX + M3_W / 2, 1250, -m3D + 20);
+    m3Group.add(backPanel);
+
+    // Askı Kancaları (4 Adet Gold/Metal Peg)
+    const hookCount = 4;
+    const hookSpacing = (M3_W - 80) / (hookCount - 1);
+    for (let i = 0; i < hookCount; i++) {
+      const hookX = m3StartX + 40 + i * hookSpacing;
+      const hookGeo = new THREE.CylinderGeometry(8, 12, 45, 16);
+      const hook = new THREE.Mesh(hookGeo, metalMat);
+      hook.rotation.x = Math.PI / 2;
+      hook.position.set(hookX, 1500, -m3D + 45);
+      hook.castShadow = true;
+      m3Group.add(hook);
+    }
+
+    // Üst Açık Raf
+    const m3TopShelf = new THREE.Mesh(
+      new THREE.BoxGeometry(M3_W - THICKNESS, THICKNESS, m3D - 30),
+      woodMat
+    );
+    m3TopShelf.position.set(m3StartX + M3_W / 2, 1750, -m3D / 2);
+    m3Group.add(m3TopShelf);
+
+    // Puf & Askılık LED Ambiyansı
+    const pufLight = new THREE.PointLight(ledColor, 0.8, 1200);
+    pufLight.position.set(m3StartX + M3_W / 2, 1700, -m3D + 100);
+    scene.add(pufLight);
+    ledLights.push(pufLight);
+
+    // ==========================================
+    // MODÜL 4: 350 mm SAĞ DOLAP (400 mm Sığ Derinlik)
+    // ==========================================
+    const m4Group = new THREE.Group();
+    vestiyerGroup.add(m4Group);
+
+    const m4StartX = M1_W + M2_W + M3_W;
+    const m4D = RIGHT_D;
+
+    // Sağ Kapak
+    const m4DoorPivot = new THREE.Group();
+    m4DoorPivot.position.set(TOTAL_W - THICKNESS, 85, 0);
+    vestiyerGroup.add(m4DoorPivot);
+
+    const m4DoorMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(M4_W - 10, doorHeight, 20),
+      woodMat
+    );
+    m4DoorMesh.position.set(-(M4_W - 10) / 2, doorHeight / 2, 10);
+    m4DoorMesh.castShadow = true;
+    m4DoorPivot.add(m4DoorMesh);
+
+    const m4Handle = new THREE.Mesh(handleGeo, metalMat);
+    m4Handle.position.set(-(M4_W - 35), doorHeight / 2, 22);
+    m4DoorPivot.add(m4Handle);
+
+    // İç Raflar (400 mm derinlik için teleskopik/sığ askı veya 3 ara raf)
+    for (let i = 1; i <= 3; i++) {
+      const shelfY = 80 + i * 450;
+      const shelf = new THREE.Mesh(
+        new THREE.BoxGeometry(M4_W - THICKNESS, THICKNESS, m4D - 40),
+        carcassMat
+      );
+      shelf.position.set(m4StartX + M4_W / 2, shelfY, -m4D / 2);
+      m4Group.add(shelf);
+    }
+
+    // ==========================================
+    // İNTERAKTİF FONKSİYONLAR
+    // ==========================================
+    let doorsOpen = false;
+    let targetDoorAngle = 0;
+    let currentDoorAngle = 0;
+
+    function toggleDoors() {
+      doorsOpen = !doorsOpen;
+      targetDoorAngle = doorsOpen ? Math.PI * 0.55 : 0;
+      document.getElementById('btn-door').classList.toggle('active', doorsOpen);
+    }
+
+    let ledActive = true;
+    function toggleLED() {
+      ledActive = !ledActive;
+      ledLights.forEach(l => l.visible = ledActive);
+      ledGlowMat.visible = ledActive;
+      document.getElementById('btn-led').classList.toggle('active', ledActive);
+    }
+
+    function changeMaterial(woodHex, darkHex) {
+      currentWoodColor = parseInt(woodHex.replace('#', '0x'));
+      currentDarkColor = parseInt(darkHex.replace('#', '0x'));
+
+      woodMat.color.setHex(currentWoodColor);
+      lambriMat.color.setHex(currentWoodColor);
+      cushionMat.color.setHex(currentDarkColor);
+
+      document.querySelectorAll('.color-dot').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function setCameraView(view) {
+      controls.autoRotate = false;
+      if (view === 'front') {
+        gsapToCamera(1075, 1000, 3400, 1075, 1000, -260);
+      } else if (view === 'iso') {
+        gsapToCamera(2400, 1700, 2800, 1075, 1000, -260);
+      } else if (view === 'side') {
+        // Pah derinlik farkını net gösteren açı (Sol-Üst perspektif)
+        gsapToCamera(-1200, 1800, 1500, 1000, 1000, -300);
+      }
+    }
+
+    function gsapToCamera(px, py, pz, tx, ty, tz) {
+      camera.position.set(px, py, pz);
+      controls.target.set(tx, ty, tz);
+    }
+
+    function resetView() {
+      setCameraView('iso');
+    }
+
+    // Pencere Boyutlandırma
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Animasyon Döngüsü
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Kapak Açılma/Kapanma Enterpolasyonu
+      currentDoorAngle += (targetDoorAngle - currentDoorAngle) * 0.08;
+      leftDoorPivot.rotation.y = currentDoorAngle;
+      rightDoorPivot.rotation.y = -currentDoorAngle;
+      m4DoorPivot.rotation.y = -currentDoorAngle;
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
